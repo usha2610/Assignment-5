@@ -1,0 +1,101 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const productBox = document.getElementById('box');
+    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+
+    const products = [
+        {
+            id: 1,
+            title: 'Wireless Bluetooth Headphones',
+            description: 'Experience crystal clear audio with these comfortable over-ear headphones, featuring long battery life and noise cancellation.',
+            price: 2499,
+            category: 'Electronics',
+            brand: 'AudioTech',
+            stock: 150,
+            thumbnail: 'https://via.placeholder.com/400x300?text=Headphones'
+        },
+        {
+            id: 2,
+            title: 'Smartwatch Series 7',
+            description: 'Track your fitness, receive notifications, and stay connected on the go with this sleek and powerful smartwatch.',
+            price: 7999,
+            category: 'Wearables',
+            brand: 'TechGear',
+            stock: 80,
+            thumbnail: 'https://via.placeholder.com/400x300?text=Smartwatch'
+        },
+        {
+            id: 3,
+            title: 'Portable SSD 1TB',
+            description: 'Ultra-fast external solid-state drive for all your storage needs. Compact and durable design.',
+            price: 5999,
+            category: 'Storage',
+            brand: 'DataStore',
+            stock: 200,
+            thumbnail: 'https://via.placeholder.com/400x300?text=Portable+SSD'
+        },
+        {
+            id: 4,
+            title: 'Ergonomic Office Chair',
+            description: 'Designed for ultimate comfort and support during long working hours. Adjustable features for personalized ergonomics.',
+            price: 8999,
+            category: 'Furniture',
+            brand: 'ComfySeats',
+            stock: 50,
+            thumbnail: 'https://via.placeholder.com/400x300?text=Office+Chair'
+        },
+        {
+            id: 5,
+            title: '4K Ultra HD Smart TV',
+            description: 'Immerse yourself in stunning visuals with this 55-inch 4K Smart TV, offering vibrant colors and smart features.',
+            price: 34999,
+            category: 'Electronics',
+            brand: 'VisionFlow',
+            stock: 30,
+            thumbnail: 'https://via.placeholder.com/400x300?text=4K+Smart+TV'
+        }
+    ];
+
+    function displayProducts() {
+        productBox.innerHTML = ''; // Clear existing content
+        products.forEach(product => {
+            const productCard = `
+                <div class="col">
+                    <div class="card h-100 shadow-sm cursor-pointer" data-id="${product.id}">
+                        <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${product.title}</h5>
+                            <p class="card-text text-muted">₹${product.price}</p>
+                            <button class="btn btn-primary mt-auto view-details-btn" data-id="${product.id}">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productBox.innerHTML += productCard;
+        });
+
+        document.querySelectorAll('.view-details-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productId = parseInt(event.target.dataset.id);
+                const selectedProduct = products.find(p => p.id === productId);
+                if (selectedProduct) {
+                    showProductDetails(selectedProduct);
+                }
+            });
+        });
+    }
+
+    function showProductDetails(product) {
+        document.getElementById('modalTitle').textContent = product.title;
+        document.getElementById('modalImage').src = product.thumbnail;
+        document.getElementById('modalImage').alt = product.title;
+        document.getElementById('modalDescription').textContent = product.description;
+        document.getElementById('modalCategory').textContent = product.category;
+        document.getElementById('modalBrand').textContent = product.brand;
+        document.getElementById('modalPrice').textContent = product.price.toLocaleString('en-IN'); 
+        document.getElementById('modalStock').textContent = product.stock;
+        
+        productModal.show();
+    }
+
+    displayProducts();
+});
